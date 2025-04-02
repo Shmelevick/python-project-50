@@ -23,4 +23,4 @@ jobs:
           make lint
           make test
       - name: Test code coverage
-        run: test-cov
+        run: make test-cov
