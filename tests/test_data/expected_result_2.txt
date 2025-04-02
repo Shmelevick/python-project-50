@@ -1,0 +1,20 @@
+{
+  - address: 123 Main St
+  + address: 456 Elm St
+  - age: 30
+  + age: 35
+  - city: New York
+  + city: San Francisco
+    country: USA
+  - email: john@example.com
+  + email: john_doe@example.com
+  - is_subscribed: true
+  + is_subscribed: false
+  - last_login: 2023-04-01
+  + last_login: 2023-04-02
+    name: John
+  - phone: 123-456-7890
+  + phone: 987-654-3210
+  - role: user
+  + role: admin
+}

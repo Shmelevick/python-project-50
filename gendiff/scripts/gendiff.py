@@ -34,9 +34,6 @@ def generate_diff(file1: dict, file2: dict) -> str:
     return result + '}'
 
 
-
-
-
 def load_json(file_path):
     with open(file_path, encoding="utf-8") as f:
         return json.load(f)
@@ -47,10 +44,11 @@ def main():
         description='Compares two configuration files and shows a difference.'
     )
 
-    parser.add_argument('first_file', type=str) # help='Path to the first file'
+    parser.add_argument('first_file', type=str)  # help='Path to the first file'
     parser.add_argument('second_file', type=str)
     parser.add_argument('-f', '--format', help='set format of output',
-                        default='stylish', choices=['stylish', 'plain', 'json'])
+    default='stylish', choices=['stylish', 'plain', 'json'])
+
     args = parser.parse_args()
 
     first_data = load_json(args.first_file)

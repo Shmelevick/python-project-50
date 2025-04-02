@@ -1,0 +1,12 @@
+{
+    "name": "John",
+    "age": 30,
+    "city": "New York",
+    "email": "john@example.com",
+    "phone": "123-456-7890",
+    "address": "123 Main St",
+    "country": "USA",
+    "is_subscribed": true,
+    "last_login": "2023-04-01",
+    "role": "user"
+  }

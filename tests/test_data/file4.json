@@ -1,0 +1,12 @@
+{
+    "name": "John",
+    "age": 35,
+    "city": "San Francisco",
+    "email": "john_doe@example.com",
+    "phone": "987-654-3210",
+    "address": "456 Elm St",
+    "country": "USA",
+    "is_subscribed": false,
+    "last_login": "2023-04-02",
+    "role": "admin"
+}
