@@ -1,7 +1,29 @@
 import json
 import os
 
+import yaml
+
 from gendiff import generate_diff
+
+
+def test_flat_yaml():
+    file5_path = os.path.join(os.path.dirname(__file__), 'test_data',
+    'file5.yaml')
+    file6_path = os.path.join(os.path.dirname(__file__), 'test_data',
+    'file6.yaml')
+    expected_result_3 = os.path.join(os.path.dirname(__file__), 'test_data',
+    'expected_result_3.txt')
+
+    with open(file5_path, encoding='utf-8') as file:
+        file5 = yaml.safe_load(file)
+
+    with open(file6_path, encoding='utf-8') as file:
+        file6 = yaml.safe_load(file)
+
+    with open(expected_result_3, encoding='utf-8') as file:
+        expected_result = file.read()
+
+    assert generate_diff(file5, file6) == expected_result
 
 
 def test_flat_json():

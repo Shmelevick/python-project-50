@@ -1,6 +1,8 @@
 import argparse
 import json
 
+import yaml
+
 
 def generate_diff(file1: dict, file2: dict) -> str:
     
@@ -39,6 +41,11 @@ def load_json(file_path):
         return json.load(f)
 
 
+def load_yaml_yml(file_path):
+    with open(file_path, encoding='utf-8') as f:
+        return yaml.safe_load(f)
+
+
 def main():
     parser = argparse.ArgumentParser(
         description='Compares two configuration files and shows a difference.'
@@ -50,9 +57,20 @@ def main():
     default='stylish', choices=['stylish', 'plain', 'json'])
 
     args = parser.parse_args()
+    arg1 = args.first_file
+    arg2 = args.second_file
 
-    first_data = load_json(args.first_file)
-    second_data = load_json(args.second_file)
+    first_data = (
+        load_yaml_yml(arg1)
+        if arg1.endswith(('yml', 'yaml'))
+        else load_json(arg1)
+    )
+
+    second_data = (
+        load_yaml_yml(arg2) 
+        if arg2.endswith(('yml', 'yaml'))
+        else load_json(arg2)
+    )
 
     print(generate_diff(first_data, second_data))
 
