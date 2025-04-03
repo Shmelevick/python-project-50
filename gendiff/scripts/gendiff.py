@@ -6,7 +6,7 @@ import yaml
 IND = '  '
 
 
-def format_value(value, level):
+def format_value(value, level=None):
     """Format values: bool -> lowercase, None -> null, dict -> formatted"""
 
     if isinstance(value, bool):
@@ -71,10 +71,54 @@ def get_diff_string(file1: dict, file2: dict, level=0):
     result += f'{IND * (level)}}}'
     return result
 
+def format_value_plain(value):
+    if isinstance(value, bool):
+        return str(value).lower()
+    elif value is None and isinstance(value, str):
+        return ' '
+    elif isinstance(value, dict):
+        return [[key, value] for key, value in value.items()]
+    elif value is None:
+        return 'null'
+    return value
+
+
+
+def get_diff_plain(file1, file2):
+    result = []
+
+    keys1 = get_key(file1)
+    keys2 = get_key(file2)
+    all_keys = sorted(keys1 | keys2)
+
+    for key in all_keys:
+        result.append(key)
+
+        val1 = file1.get(key) if isinstance(file1, dict) else None
+        val2 = file2.get(key) if isinstance(file2, dict) else None
+
+        if isinstance(val1, dict) and isinstance(val2, dict):
+            result.append(get_diff_plain(val1, val2))
+        else:
+            if val1 == val2:
+                result.append(format_value_plain(val1))
+            else:
+                if key in keys1:
+                    result.append('- ' + str(format_value_plain(val1)))
+                if key in keys2:
+                    result.append('+ ' + str(format_value_plain(val2)))
+
+    return result
+
+
 
 def generate_diff(file1: dict, file2: dict, format_name='stylish') -> str:
     ''' Finds difference in two dicts and returns it as a formatted string '''
-    return get_diff_string(file1, file2) if format_name == 'stylish' else None
+    return (
+        get_diff_string(file1, file2)
+        if format_name == 'NOT_stylish'
+        else get_diff_plain(file1, file2)
+    )
 
 
 def load_json(file_path):
