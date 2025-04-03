@@ -4,36 +4,56 @@ import json
 import yaml
 
 
-def generate_diff(file1: dict, file2: dict) -> str:
+def generate_diff(file1: dict, file2: dict, level=0) -> str:
+    ''' Finds difference in two dicts and returns it as a formatted string '''
     
-    ''' Finds difference in two dicts'''
+    def format_value(value, level):
+        """ Format values: bool -> lowercase, None -> null, dict -> formatted """
+        if value is None:
+            print(f'>{value}<')
 
-    def format_bool(value):
-        """ Bool True/False -> str true/false"""
         if isinstance(value, bool):
             return str(value).lower()
+        elif value is None and isinstance(value, str):
+            return ' '
+        elif isinstance(value, dict):
+            return format_dict(value, level)
+        elif value is None:
+            return 'null'
         return value
 
-    cont_list = sorted([x for x in file1 | file2])
+    def format_dict(d, level):
+        """ Properly formats nested dicts """
+        lines = [f'{ind * (level + 2)}{key}: {format_value(val, level + 2)}' for key, val in d.items()]
+        return f'{{\n' + '\n'.join(lines) + f'\n{ind * (level)}}}'
+
+    ind = '  '
     result = '{\n'
 
-    for key in cont_list:
-        val1 = file1.get(key)
-        val2 = file2.get(key)
+    keys1 = set(file1.keys()) if isinstance(file1, dict) else set()
+    keys2 = set(file2.keys()) if isinstance(file2, dict) else set()
+    all_keys = sorted(keys1 | keys2)
 
-        if val1 == val2:
-            result += f'    {key}: {format_bool(val1)}\n'
-        elif key in file1 and key in file2:
-            result += f'  - {key}: {format_bool(val1)}\n'
-            result += f'  + {key}: {format_bool(val2)}\n'
-        elif key in file1:
-            result += f'  - {key}: {format_bool(val1)}\n'
-        elif key in file2:
-            result += f'  + {key}: {format_bool(val2)}\n'
+    for key in all_keys:
+        val1 = file1.get(key) if isinstance(file1, dict) else None
+        val2 = file2.get(key) if isinstance(file2, dict) else None
+
+        if isinstance(val1, dict) and isinstance(val2, dict):
+            result += f'{ind * (level + 2)}{key}: {generate_diff(val1, val2, level + 2)}\n'
         else:
-            return f'Error: {key}'
+            if val1 == val2:
+                result += f'{ind * (level + 2)}{key}: {format_value(val1, level + 2)}\n'
+            else:
+                if key in keys1:
+                    result += f'{ind * (level + 1)}- {key}: {format_value(val1, level + 2)}\n'
+                if key in keys2:
+                    result += f'{ind * (level + 1)}+ {key}: {format_value(val2, level + 2)}\n'
 
-    return result + '}'
+    result += f'{ind * (level)}}}'
+
+    with open("result_diff_output.txt", "w", encoding="utf-8") as output_file:
+        output_file.write(result)
+    return result
 
 
 def load_json(file_path):
