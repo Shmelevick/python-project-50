@@ -178,7 +178,7 @@ def generate_diff(file1: dict, file2: dict, format_name='stylish') -> str:
         case 'stylish':
             return get_diff_string(file1, file2)
         case 'plain':
-            return plain_format_diff(get_diff_plain(file1, file2))
+            return plain_format_diff(get_diff_plain(file1, file2)).strip()
     
 
 def load_json(file_path):

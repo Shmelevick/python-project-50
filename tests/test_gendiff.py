@@ -104,3 +104,61 @@ def test_nested_json():
         expected_result = file.read()
 
     assert generate_diff(file9, file10) == expected_result
+
+def test_plain_yaml_nested():
+    file7_path = os.path.join(os.path.dirname(__file__), 'test_data',
+    'file7.yaml')
+    file8_path = os.path.join(os.path.dirname(__file__), 'test_data',
+    'file8.yaml')
+    expected_plain_yaml = os.path.join(os.path.dirname(__file__), 'test_data',
+    'expected_plain_yaml.txt')
+
+    with open(file7_path, encoding='utf-8') as file:
+        file7 = yaml.safe_load(file)
+
+    with open(file8_path, encoding='utf-8') as file:
+        file8 = yaml.safe_load(file)
+
+    with open(expected_plain_yaml, encoding='utf-8') as file:
+        expected_result = file.read()
+
+    assert generate_diff(file7, file8, 'plain') == expected_result
+
+
+def test_plain_yaml_flat():
+    file5_path = os.path.join(os.path.dirname(__file__), 'test_data',
+    'file5.yaml')
+    file6_path = os.path.join(os.path.dirname(__file__), 'test_data',
+    'file6.yaml')
+    expected_plain_yaml_flat = os.path.join(os.path.dirname(__file__), 'test_data',
+    'expected_plain_yaml_flat.txt')
+
+    with open(file5_path, encoding='utf-8') as file:
+        file5 = yaml.safe_load(file)
+
+    with open(file6_path, encoding='utf-8') as file:
+        file6 = yaml.safe_load(file)
+
+    with open(expected_plain_yaml_flat, encoding='utf-8') as file:
+        expected_result = file.read()
+
+    assert generate_diff(file5, file6, 'plain') == expected_result
+
+def test_plain_json_nested():
+    file9_path = os.path.join(os.path.dirname(__file__), 'test_data',
+    'file9.json')
+    file10_path = os.path.join(os.path.dirname(__file__), 'test_data',
+    'file10.json')
+    expected_result_nested = os.path.join(os.path.dirname(__file__), 'test_data',
+    'expected_plain_yaml.txt')
+
+    with open(file9_path, encoding='utf-8') as file:
+        file9 = json.load(file)
+
+    with open(file10_path, encoding='utf-8') as file:
+        file10 = json.load(file)
+
+    with open(expected_result_nested, encoding='utf-8') as file:
+        expected_result = file.read()
+
+    assert generate_diff(file9, file10, 'plain') == expected_result
