@@ -23,24 +23,12 @@ def main():
     arg2 = args.second_file
     format_type = args.format
 
-    first_data = (
-        load_yaml_yml(arg1)
-        if arg1.endswith(('yml', 'yaml'))
-        else load_json(arg1)
-    )
-
-    second_data = (
-        load_yaml_yml(arg2) 
-        if arg2.endswith(('yml', 'yaml'))
-        else load_json(arg2)
-    )
-
-    print(generate_diff(first_data, second_data, format_name=format_type))
-    return generate_diff(first_data, second_data, format_name=format_type)
+    print(generate_diff(arg1, arg2, format_name=format_type))
     print(args)
+    return generate_diff(arg1, arg2, format_name=format_type)
 
 
-def generate_diff(raw_file1: dict, raw_file2: dict, format_name='stylish'):
+def generate_diff(raw_file1, raw_file2, format_name='stylish'):
     ''' Finds difference in two dicts and returns it as a formatted string '''
 
     file1, file2 = get_files(raw_file1, raw_file2)
@@ -65,8 +53,6 @@ def load_yaml_yml(file_path):
 
 
 def get_files(f1, f2):
-    if isinstance(f1, dict):
-        return (f1, f2)
 
     first_data = (
         load_yaml_yml(f1)
