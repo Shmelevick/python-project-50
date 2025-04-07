@@ -51,8 +51,8 @@ def test_flat_yaml():
     'file5.yaml')
     file6_path = os.path.join(os.path.dirname(__file__), 'test_data',
     'file6.yaml')
-    expected_result_3 = os.path.join(os.path.dirname(__file__), 'test_data',
-    'expected_result_3.txt')
+    expected_result_flat_yaml = os.path.join(os.path.dirname(__file__),
+    'test_data', 'expected_plain_yaml_flat.txt')
 
     with open(file5_path, encoding='utf-8') as file:
         file5 = yaml.safe_load(file)
@@ -60,10 +60,10 @@ def test_flat_yaml():
     with open(file6_path, encoding='utf-8') as file:
         file6 = yaml.safe_load(file)
 
-    with open(expected_result_3, encoding='utf-8') as file:
+    with open(expected_result_flat_yaml, encoding='utf-8') as file:
         expected_result = file.read()
 
-    assert generate_diff(file5, file6) == expected_result
+    assert generate_diff(file5, file6, 'plain') == expected_result
 
 
 def test_nested_yaml():
@@ -164,3 +164,49 @@ def test_plain_json_nested():
         expected_result = file.read()
 
     assert generate_diff(file9, file10, 'plain') == expected_result
+
+
+def test_json_to_json_nested():
+    file9_path = os.path.join(os.path.dirname(__file__), 'test_data',
+    'file9.json')
+    file10_path = os.path.join(os.path.dirname(__file__), 'test_data',
+    'file10.json')
+    expected_result_json = os.path.join(os.path.dirname(__file__),
+    'test_data', 'expected_json.json')
+
+    with open(file9_path, encoding='utf-8') as file:
+        file9 = json.load(file)
+
+    with open(file10_path, encoding='utf-8') as file:
+        file10 = json.load(file)
+
+    with open(expected_result_json, encoding='utf-8') as file:
+        expected_result = json.load(file)
+
+    result_json_str = generate_diff(file9, file10, 'json')
+    actual_result = json.loads(result_json_str)
+
+    assert actual_result == expected_result
+
+
+def test_flat_yaml_to_json():
+    file5_path = os.path.join(os.path.dirname(__file__), 'test_data',
+    'file5.yaml')
+    file6_path = os.path.join(os.path.dirname(__file__), 'test_data',
+    'file6.yaml')
+    expected_result_flat_yaml = os.path.join(os.path.dirname(__file__),
+    'test_data', 'expected_flat_yaml.json')
+
+    with open(file5_path, encoding='utf-8') as file:
+        file5 = yaml.safe_load(file)
+
+    with open(file6_path, encoding='utf-8') as file:
+        file6 = yaml.safe_load(file)
+
+    with open(expected_result_flat_yaml, encoding='utf-8') as file:
+        expected_result = json.load(file)
+
+    result_json_str = generate_diff(file5, file6, 'json')
+    actual_result = json.loads(result_json_str)
+
+    assert actual_result == expected_result

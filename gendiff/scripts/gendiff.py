@@ -3,7 +3,8 @@ import json
 
 import yaml
 
-from .plain_gendiff import get_diff_plain, plain_format_diff
+from .json_gendiff import json_format_diff
+from .plain_gendiff import get_list, plain_format_diff
 from .stylish_gendiff import get_diff_string
 
 
@@ -13,7 +14,9 @@ def generate_diff(file1: dict, file2: dict, format_name='stylish') -> str:
         case 'stylish':
             return get_diff_string(file1, file2)
         case 'plain':
-            return plain_format_diff(get_diff_plain(file1, file2)).strip()
+            return plain_format_diff(get_list(file1, file2)).strip()
+        case 'json':
+            return json_format_diff(file1, file2)
 
 
 def load_json(file_path):
@@ -26,18 +29,12 @@ def load_yaml_yml(file_path):
         return yaml.safe_load(f)
 
 
-# print(get_diff_plain(
-#     load_yaml_yml('tests/test_data/file7.yaml'),
-#     load_yaml_yml('tests/test_data/file8.yaml'))
-#     )
-
-
 def main():
     parser = argparse.ArgumentParser(
         description='Compares two configuration files and shows a difference.'
     )
 
-    parser.add_argument('first_file', type=str)  # help='Path to the first file'
+    parser.add_argument('first_file', type=str)
     parser.add_argument('second_file', type=str)
     parser.add_argument('-f', '--format', help='set format of output',
     default='stylish', choices=['stylish', 'plain', 'json'])
