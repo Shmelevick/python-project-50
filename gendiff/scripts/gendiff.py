@@ -57,7 +57,7 @@ def main():
     )
 
     print(generate_diff(first_data, second_data, format_name=format_type))
-
+    return generate_diff(first_data, second_data, format_name=format_type)
     print(args)
 
 

@@ -68,9 +68,9 @@ def test_flat_yaml():
 
 def test_nested_yaml():
     file7_path = os.path.join(os.path.dirname(__file__), 'test_data',
-    'file7.yaml')
+    'file7.yml')
     file8_path = os.path.join(os.path.dirname(__file__), 'test_data',
-    'file8.yaml')
+    'file8.yml')
     expected_result_4 = os.path.join(os.path.dirname(__file__), 'test_data',
     'expected_result_4.txt')
 
@@ -108,9 +108,9 @@ def test_nested_json():
 
 def test_plain_yaml_nested():
     file7_path = os.path.join(os.path.dirname(__file__), 'test_data',
-    'file7.yaml')
+    'file7.yml')
     file8_path = os.path.join(os.path.dirname(__file__), 'test_data',
-    'file8.yaml')
+    'file8.yml')
     expected_plain_yaml = os.path.join(os.path.dirname(__file__), 'test_data',
     'expected_plain_yaml.txt')
 
