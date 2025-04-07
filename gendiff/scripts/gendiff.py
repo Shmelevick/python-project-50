@@ -24,7 +24,6 @@ def main():
     format_type = args.format
 
     print(generate_diff(arg1, arg2, format_name=format_type))
-    # return generate_diff(arg1, arg2, format_name=format_type)
 
 
 def generate_diff(raw_file1, raw_file2, format_name='stylish'):
@@ -53,7 +52,6 @@ def load_yaml_yml(file_path):
 
 def get_files(f1, f2):
 
-    # print(f1)
     first_data = (
         load_yaml_yml(f1)
         if f1.endswith(('yml', 'yaml'))
@@ -61,7 +59,7 @@ def get_files(f1, f2):
     )
 
     second_data = (
-        load_yaml_yml(f2) 
+        load_yaml_yml(f2)
         if f2.endswith(('yml', 'yaml'))
         else load_json(f2)
     )
