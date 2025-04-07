@@ -65,6 +65,9 @@ def load_yaml_yml(file_path):
 
 
 def get_files(f1, f2):
+    if isinstance(f1, dict):
+        return (f1, f2)
+
     first_data = (
         load_yaml_yml(f1)
         if f1.endswith(('yml', 'yaml'))
