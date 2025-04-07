@@ -42,12 +42,12 @@ def _operate_update(key, value1, value2, address):
     value2 = cv if isinstance(value2, list) else value2
     value1 = (
         value1
-        if value1 in ('null', 'true', 'false', cv)
+        if value1 in ('null', 'true', 'false', cv, '0')
         else f"'{value1}'"
     )
     value2 = (
         value2
-        if value2 in ('null', 'true', 'false', cv)
+        if value2 in ('null', 'true', 'false', cv, '0')
         else f"'{value2}'"
     )
 
@@ -61,7 +61,11 @@ def _operate_add_remove(key, value, address):
     cv = '[complex value]'
 
     value = cv if isinstance(value, list) else value
-    value = value if value in ('null', 'true', 'false', cv) else f"'{value}'"
+    value = (
+        value
+        if value in ('null', 'true', 'false', '0', cv)
+        else f"'{value}'"
+    )
 
     if key.startswith('+'):
         return (
