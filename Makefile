@@ -1,11 +1,15 @@
 install:
 	uv sync
 
-rebuild:
+build:
 	uv build
-	rm dist/hexlet_code-0.1.0-py3-none-any.whl
-	rm dist/hexlet_code-0.1.0.tar.gz
-	uv sync
+
+package-install:
+	uv tool install dist/*.whl
+
+package-rebuild:
+	uv tool install --force dist/hexlet_code-0.1.0-py3-none-any.whl
+	uv tool install --force dist/hexlet_code-0.1.0.tar.gz 
 
 test:
 	uv run pytest -v   
