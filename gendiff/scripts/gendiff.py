@@ -23,8 +23,8 @@ def main():
     arg2 = args.second_file
     format_type = args.format
 
-    print(generate_diff(arg1, arg2, format_name=format_type))
-    print(args)
+    # print(generate_diff(arg1, arg2, format_name=format_type))
+    # print(args)
     return generate_diff(arg1, arg2, format_name=format_type)
 
 
